@@ -4,11 +4,7 @@
 
     <form [formGroup]="formGroupProduct">
       <div class="row">
-        <div class="mb-3 col-3">
-          <label for="id" class="form-label">Id</label>
-          <input type="text" class="form-control" id="id" formControlName="id"/>
-        </div>
-        <div class="mb-3 col-9">
+        <div class="mb-3 col-12">
           <label for="name" class="form-label">Nome</label>
           <input type="text" class="form-control" id="name" formControlName="name"/>
         </div>
@@ -42,18 +38,21 @@
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Nome</th>
-          <th scope="col">Descrição</th>
           <th scope="col">Preço</th>
           <th scope="col">Quantidade</th>
+          <th scope="col">Opções</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let product of products">
           <th scope="row">{{ product.id }}</th>
           <td>{{ product.name }}</td>
-          <td>{{ product.description }}</td>
           <td>{{ product.price }}</td>
           <td>{{ product.amount }}</td>
+          <td class="d-flex gap-2 justidy-content-end">
+            <button class="btn btn-primary" (click)="edit(product)">Alterar</button>
+            <button class="btn btn-danger" (click)="delete(product)">Remover</button>
+          </td>
         </tr>
       </tbody>
     </table>

@@ -1,0 +1,25 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Teste",
+      "description": "teste",
+      "price": 5,
+      "amount": 3
+    },
+    {
+      "id": 3,
+      "name": "Maccarao",
+      "description": "Do bao",
+      "price": 17.9,
+      "amount": 4
+    },
+    {
+      "id": 4,
+      "name": "Cerveja",
+      "description": "Gelada",
+      "price": 9.85,
+      "amount": 15
+    }
+  ]
+}

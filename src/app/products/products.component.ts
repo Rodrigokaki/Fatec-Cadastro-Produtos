@@ -1,34 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Product } from '../products';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ProductsService } from '../products.service';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit{
 
-  products: Product[] = [
-    {
-      id: 1,
-      name: "Teste",
-      description: "teste",
-      price: 5,
-      amount: 3
-    },
-    {
-      id: 2,
-      name: "Arroz",
-      description: "Branco",
-      price: 26,
-      amount: 8
-    }
-  ];
+  products: Product[] = [];
 
   formGroupProduct : FormGroup;
+  isEditing: Boolean = false;
 
-  constructor(private formBuilder: FormBuilder){
+  constructor(private formBuilder: FormBuilder, private service: ProductsService){
     this.formGroupProduct = formBuilder.group({
       id: [''],
       name: [''],
@@ -38,8 +25,42 @@ export class ProductsComponent {
     })
   }
 
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts(){
+    this.service.getProducts().subscribe({
+      next: (data) => this.products = data
+    });
+  }
+
   save(){
-    this.products.push(this.formGroupProduct.value);
+    if(this.isEditing){
+      this.service.update(this.formGroupProduct.value).subscribe({
+        next: () => {
+          this.loadProducts();
+          this.isEditing = false;
+        }
+      })
+    }
+    else{
+      this.service.save(this.formGroupProduct.value).subscribe({
+        next: data => this.products.push(data)
+      });
+    }
+    this.formGroupProduct.reset();
+  }
+
+  edit(product: Product){
+    this.formGroupProduct.setValue(product);
+    this.isEditing = true;
+  }
+
+  delete(product: Product){
+    this.service.delete(product).subscribe({
+      next: () => this.loadProducts()
+    })
   }
 
 }
